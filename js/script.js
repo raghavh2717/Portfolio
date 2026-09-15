@@ -33,7 +33,13 @@ const progressBar = document.getElementById('progressBar');
   // ================= SMOOTH SCROLL SYSTEM =================
   // One system drives everything: mouse-wheel inertia AND anchor-link navigation,
   // so they never fight each other (no snap-back on nav clicks).
+  // NOTE: this wheel-driven inertia loop is desktop-only. On touch devices it fought
+  // the browser's native momentum scrolling (re-writing scroll position every animation
+  // frame), which is what made mobile scrolling feel heavy/laggy. Mobile now gets plain
+  // native scrolling, with anchor-link taps using the browser's built-in smooth scroll.
   const smoothScrollReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches || navigator.maxTouchPoints > 0;
+  const useInertiaScroll = !smoothScrollReduce && !isTouchDevice;
   let scrollCurrent = window.scrollY;
   let scrollTarget = window.scrollY;
 
@@ -42,12 +48,12 @@ const progressBar = document.getElementById('progressBar');
 
   function smoothScrollTo(y){
     const clamped = Math.max(0, Math.min(y, maxScrollY()));
-    if(smoothScrollReduce){ window.scrollTo({ top: clamped, behavior:'auto' }); return; }
+    if(!useInertiaScroll){ window.scrollTo({ top: clamped, behavior: smoothScrollReduce ? 'auto' : 'smooth' }); return; }
     scrollTarget = clamped;
   }
 
-  if(!smoothScrollReduce){
-    // wheel → buttery inertia
+  if(useInertiaScroll){
+    // wheel → buttery inertia (mouse/trackpad only)
     window.addEventListener('wheel', (e) => {
       e.preventDefault();
       scrollTarget += e.deltaY;
