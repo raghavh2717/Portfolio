@@ -15,6 +15,7 @@
 }
 html {
   scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
 }
 body {
   margin: 0;
@@ -23,6 +24,9 @@ body {
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  max-width: 100vw;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 ::selection {
   background: var(--accent);
@@ -445,6 +449,64 @@ header.scrolled nav {
 }
 .btn-ghost:hover {
   border-color: var(--ink);
+}
+
+/* hero — mobile fit: shrink type, stack heading/subtext/actions in a column, kill overflow */
+@media (max-width: 700px) {
+  .hero {
+    padding: 120px 0 60px;
+  }
+  .hero h1 {
+    font-size: 40px;
+    line-height: 1.2;
+  }
+  .hero h1 .role {
+	display: block;
+	/* width: fit-content; */
+	/* max-width: 100%; */
+	/* margin: 10px auto 0; */
+	font-size: 30px;
+	line-height: 14px;
+	/* white-space: normal; */
+	padding: 15px 18px;
+}
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero p.lead {
+    margin-top: 18px;
+    max-width: 100%;
+    font-size: 15px;
+  }
+  .hero-actions {
+    margin-top: 26px;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 320px;
+  }
+  .hero-actions .btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
+@media (max-width: 500px) {
+
+#experience {
+	margin-top: 55px;
+}
+}
+@media (max-width: 420px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+ .hero h1 .role {
+	font-size: 23px;
+	line-height: 5px;
+}
 }
 
 .code-window {
@@ -1295,6 +1357,12 @@ section > .wrap {
   .doodle {
     display: none;
   }
+  .about-watermark {
+ left: inherit;
+  right: 4px;
+  bottom: -14px;
+	font-size: 70px;
+}
 }
 .draw-path {
   animation: drawIn 1.1s var(--ease) forwards paused;
@@ -1507,14 +1575,41 @@ section > .wrap {
   transition: width 1.3s var(--ease);
 }
 @media (max-width: 480px) {
-  .skills-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+ .skills-grid {
+	grid-template-columns: 1fr;
+}
+.wrap.contact-grid {
+	margin-bottom: 51px;
+}
+header {
+	width: 100%;
+	max-width: 365px;
+}
+section {
+	padding: 80px 0 0px;
+}
+.cp-cap.end {
+	margin-bottom: 58px;
+}
 }
 @media (max-width: 380px) {
   .skills-grid {
     grid-template-columns: 1fr;
   }
+  header {
+	width: 100%;
+	max-width: 330px;
+}
+
+}
+@media (max-width: 380px) {
+header {
+	max-width: 251px;
+}
+.hero h1 .role {
+	font-size: 21px;
+	line-height: 5px;
+}
 }
 
 /* accordion certifications */
@@ -2382,9 +2477,9 @@ section > .wrap {
   .contact-grid {
     grid-template-columns: 1fr;
   }
-  .contact-visual {
-    max-width: 220px;
-  }
+.contact-visual {
+	max-width: 100%;
+}
 }
 .submit-btn {
   width: 100%;
@@ -2524,7 +2619,18 @@ footer {
     align-items: flex-start;
   }
 }
-
+@media (max-width: 500px) {
+.section-head {
+	align-items: start ;
+	flex-direction: column;
+}
+.wrap {
+	padding: 0 15px;
+}
+.about {
+	padding: 20px 20px 54px ;
+}
+}
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
